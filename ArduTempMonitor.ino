@@ -26,64 +26,10 @@
 #include <Dns.h>
 //#include <Twitter.h>
 
-#define ONE_WIRE_BUS 3
+#include "definitions.h"
 
-#if defined(ARDUINO) && ARDUINO >= 100
-#define printByte(args)	write(args);
-#else
-#define printByte(args)	print(args,BYTE);
-#endif
-
-//LiquidCrystal_PCF8574 lcd(0x3F);
-LiquidCrystal_I2C lcd(0x3F, 20, 4);
-
-// Enter a MAC address for your controller below.
-// Newer Ethernet shields have a MAC address printed on a sticker on the shield
-byte mac[] = {
-	0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x02
-};
-IPAddress ip_remoto(10, 1, 2, 17);
-unsigned int localPort = 5005;			// local port to listen on
-
-// buffers for receiving and sending data
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE];	// buffer to hold incoming packet,
-
-// Initialize the Ethernet client library
-// with the IP address and port of the server
-// that you want to connect to (port 80 is default for HTTP):
-//EthernetClient client;
-
-// An EthernetUDP instance to let us send and receive packets over UDP
-EthernetUDP ethUdp;
-
-OneWire oneWire(ONE_WIRE_BUS);
-DallasTemperature sensors(&oneWire);
-
-DS3231 orologio;
-RTCDateTime dt;
-Timezone myTZ;
-
-Chrono timer1;
-
-EthernetUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "ntp1.inrim.it", 7200);
-
-uint8_t bell[8] = {0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4};
-uint8_t note[8] = {0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0};
-uint8_t clocks[8] = {0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0};
-uint8_t heart[8] = {0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0};
-uint8_t duck[8] = {0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0};
-uint8_t check[8] = {0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0};
-uint8_t cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
-uint8_t retarrow[8] = { 0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4};
-
-//Enable server UPD transmission
-//#define GOUDP
-
-//Enable clock's second show on lcd
-//#define printSecond
-
-void setup() {
+void setup()
+{
 	// Open serial communications and wait for port to open:
 	Serial.begin(115200);
 	int error;
@@ -105,7 +51,9 @@ void setup() {
 		lcd.createChar(5, check);
 		lcd.createChar(6, cross);
 		lcd.createChar(7, retarrow);
-	} else
+		lcd.createChar(8, slash);
+	}
+	else
 	{
 		Serial.println("ERROR: LCD not found.");
 	}
@@ -311,34 +259,34 @@ void printLcdDateTime()
 	lcd.setCursor(0, 0);
 	if (String(dt.day).length() == 1)
 	{
-	lcd.print("0");
-	lcd.print(dt.day);
-	} else
+		lcd.print("0");
+		lcd.print(dt.day);
+	}
+	else
 	{
-	lcd.print(dt.day);
+		lcd.print(dt.day);
 	}
 
 	lcd.print("/");
 
 	if (String(dt.month).length() == 1)
 	{
-	lcd.print("0");
-	lcd.print(dt.month);
-	} else
+		lcd.print("0");
+		lcd.print(dt.month);
+	}
+	else
 	{
-	lcd.print(dt.month);
+		lcd.print(dt.month);
 	}
 
 	lcd.print("/");
 	lcd.print(dt.year);
 
 #ifndef printSecond //if second has to not be shown, then shift right clock to upper right
-	//		lcd.print("		 ");
 	lcd.setCursor(15, 0);
 #endif
 
 #ifdef printSecond
-	//		lcd.print("	");
 	lcd.setCursor(12, 0);
 #endif
 
@@ -346,7 +294,8 @@ void printLcdDateTime()
 	{
 		lcd.print("0");
 		lcd.print(dt.hour);
-	} else
+	}
+	else
 	{
 		lcd.print(dt.hour);
 	}
@@ -357,7 +306,8 @@ void printLcdDateTime()
 	{
 		lcd.print("0");
 		lcd.print(dt.minute);
-	} else
+	}
+	else
 	{
 		lcd.print(dt.minute);
 	}
@@ -368,7 +318,8 @@ void printLcdDateTime()
 	{
 		lcd.print("0");
 		lcd.print(dt.second);
-	} else
+	}
+	else
 	{
 		lcd.print(dt.second);
 	}
@@ -387,43 +338,90 @@ void printTempLcd()
 	lcd.setCursor(0, 1);
 	lcd.print("T out: ");
 	lcd.print(sensors.getTempCByIndex(0));
-
 }
 
 void getRTCdateTime()
 {
 	dt = orologio.getDateTime();
-
 }
 
 void aleSignal()
 {
-	lcd.setCursor(19,3);
-	lcd.blink();
+	switch (ciclo)
+	{
+		case 0:
+			lcd.setCursor(19, 3);
+			lcd.printByte(0xB0);
+			ciclo=ciclo+1;
+			break;
+			
+		case 1:
+			lcd.setCursor(19, 3);
+			lcd.printByte(8);
+			ciclo=ciclo+1;
+			break;
+			
+		case 2:
+			lcd.setCursor(19, 3);
+			lcd.printByte(0x7C);
+			ciclo=ciclo+1;
+			break;
+			
+		case 3:
+			lcd.setCursor(19, 3);
+			lcd.printByte(0x2F);
+			ciclo=0;
+			break;
+			
+		default:
+			ciclo = 0;		
+	}
+
+//	lcd.setCursor(19, 3);
+//	lcd.blink();
 }
 
-void loop() {
+void loop()
+{
 	syncRTCtoNTP();
 	lcd.home();
 	lcd.clear();
-
+	getRTCdateTime();
+	printLcdDateTime();
+	getSensorTemp();
+	printTempLcd();
+	
 	while (true)
 	{
 
-		
+		if (contaSecondi1.hasPassed(60))
+		{
+			contaSecondi1.restart();
+			getRTCdateTime();
+			printLcdDateTime();
+		}
 
-		getRTCdateTime();
-		printLcdDateTime();
-		getSensorTemp();
-		printTempLcd();
+		if (contaSecondi2.hasPassed(301))
+		{
+			contaSecondi2.restart();
+			getSensorTemp();
+			printTempLcd();
 
-		Serial.print("Raw data: ");
-		Serial.print(dt.year);	 Serial.print("-");
-		Serial.print(dt.month);	Serial.print("-");
-		Serial.print(dt.day);		Serial.print(" ");
-		Serial.print(dt.hour);	 Serial.print(":");
-		Serial.print(dt.minute); Serial.print(":");
-		Serial.print(dt.second); Serial.println("");
+		}
+
+		if (contaMillisecondi1.hasPassed(250))
+		{
+			contaMillisecondi1.restart();
+			aleSignal();
+		}
+
+//		Serial.print("Raw data: ");
+//		Serial.print(dt.year);	 Serial.print("-");
+//		Serial.print(dt.month);	Serial.print("-");
+//		Serial.print(dt.day);		Serial.print(" ");
+//		Serial.print(dt.hour);	 Serial.print(":");
+//		Serial.print(dt.minute); Serial.print(":");
+//		Serial.print(dt.second); Serial.println("");
 
 #ifdef GOUDP
 		// send a reply, to the IP address and port that sent us the packet we received
@@ -435,7 +433,7 @@ void loop() {
 		ethUdp.write(tempDallas);
 		ethUdp.endPacket();
 #endif
-		aleSignal();
-		delay(1000);
+//		aleSignal();
+//		delay(1000);
 	}
 }
