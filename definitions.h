@@ -63,6 +63,9 @@ uint8_t slash[8] = {0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0};
 //Enable clock's second show on lcd
 //#define printSecond
 
+//Enable Serial logging
+//define Log2Serial
+
 int ciclo = 0;
 
 Sd2Card card;

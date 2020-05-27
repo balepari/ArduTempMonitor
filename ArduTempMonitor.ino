@@ -29,90 +29,177 @@
 //#include <Twitter.h>
 
 #include "definitions.h"
+#include "pitches.h"
+
+void serialSetup(int baud)
+{
+	Serial.begin(baud);
+}
+
+int wireSetup(int addr)
+{
+	int error;
+	Wire.begin();
+	Wire.beginTransmission(addr);
+	error = Wire.endTransmission();
+	return error;
+}
+
+void lcdSetup(int cols, int rows, int becklight)	//YES! I named it wrong because there was a reserved word called backlight...OUCH!
+{
+	lcd.begin(cols, rows);
+	lcd.setBacklight(becklight);
+	lcd.home();
+	lcd.clear();
+	lcd.createChar(0, bell);
+	lcd.createChar(1, note);
+	lcd.createChar(2, clocks);
+	lcd.createChar(3, heart);
+	lcd.createChar(4, duck);
+	lcd.createChar(5, check);
+	lcd.createChar(6, cross);
+	lcd.createChar(7, retarrow);
+	lcd.createChar(8, slash);
+}
+
+void piripi()
+{
+	int melody[] = {NOTE_C4, NOTE_E5, NOTE_G6}; //, NOTE_F5, NOTE_G5, NOTE_A5, NOTE_B5, NOTE_C6};
+	int duration = 300;  // 500 miliseconds
+	for (int thisNote = 0; thisNote < 3; thisNote++)
+	{
+		// pin11 output the voice, every scale is 0.5 sencond
+		tone(11, melody[thisNote], duration);
+		delay(100);
+	}
+}
+
+void bip()
+{
+	tone(11, NOTE_E7, 100);
+}
+
+void bop()
+{
+	tone(11, NOTE_C4, 600);
+}
+
+void mazalavecia()
+{
+	int normale = 500;
+	int croma = 200;
+
+	tone(11, NOTE_C5, normale);
+	delay(600);
+	tone(11, NOTE_G4, croma);
+	delay(200);
+	tone(11, NOTE_G4, croma);
+	delay(300);
+	tone(11, NOTE_A4, normale);
+	delay(200);
+	tone(11, NOTE_G4, normale);
+	delay(800);
+	tone(11, NOTE_B4, normale);
+	delay(400);
+	tone(11, NOTE_C5, normale);
+	delay(400);
+}
 
 void setup()
 {
+	piripi();
+	delay(500);
 	// Open serial communications and wait for port to open:
-	Serial.begin(115200);
-	int error;
-	Wire.begin();
-	Wire.beginTransmission(0x3F);
-	error = Wire.endTransmission();
-	if (error == 0)
+#ifdef Log2Serial
+	serialSetup(115200);
+#endif
+
+	if (wireSetup(0x3F) == 0)
 	{
+#ifdef Log2Serial
 		Serial.println("LCD Found!");
-		lcd.begin(20, 4);
-		lcd.setBacklight(255);
-		lcd.home();
-		lcd.clear();
-		lcd.createChar(0, bell);
-		lcd.createChar(1, note);
-		lcd.createChar(2, clocks);
-		lcd.createChar(3, heart);
-		lcd.createChar(4, duck);
-		lcd.createChar(5, check);
-		lcd.createChar(6, cross);
-		lcd.createChar(7, retarrow);
-		lcd.createChar(8, slash);
+#endif
+		lcdSetup(20, 4, 255);
+		bip();
 	}
 	else
 	{
+#ifdef Log2Serial
 		Serial.println("ERROR: LCD not found.");
+#endif
+		bop();
 	}
-
+#ifdef Log2Serial
 	// start the Ethernet connection:
 	Serial.println("Initialize Ethernet with DHCP:");
+#endif
 	lcd.home();
 	lcd.clear();
 	lcd.print("Init Eth & SD...");
 	lcd.blink();
 	if (Ethernet.begin(mac) == 0)
 	{
+#ifdef Log2Serial
 		Serial.println("Failed to configure Ethernet using DHCP");
+#endif
 		lcd.noBlink();
 		lcd.noCursor();
 		lcd.setCursor(0, 2);
 		lcd.print("DHCP Eth FAILED!");
+		bop();
 	}
 
 	if (Ethernet.hardwareStatus() == EthernetNoHardware)
 	{
+#ifdef Log2Serial
 		Serial.println("Ethernet shield was not found.");
+#endif
 		lcd.noBlink();
 		lcd.noCursor();
 		lcd.setCursor(0, 2);
 		lcd.print("Eth Shield MISSING!");
+		bop();
 	}
 
 	if (Ethernet.hardwareStatus() == EthernetW5100)
 	{
+#ifdef Log2Serial
 		Serial.println("W5100 Ethernet controller detected.");
+#endif
 		lcd.noBlink();
 		lcd.noCursor();
 		lcd.setCursor(0, 2);
 		lcd.print("Found W5100 Module");
+		bip();
 	}
 
 	if (Ethernet.hardwareStatus() == EthernetW5200)
 	{
+#ifdef Log2Serial
 		Serial.println("W5200 Ethernet controller detected.");
+#endif
 		lcd.noBlink();
 		lcd.noCursor();
 		lcd.setCursor(0, 2);
 		lcd.print("Found W5200 Module");
+		bip();
 	}
 
 	if (Ethernet.hardwareStatus() == EthernetW5500)
 	{
+#ifdef Log2Serial
 		Serial.println("W5500 Ethernet controller detected.");
+#endif
 		lcd.noBlink();
 		lcd.noCursor();
 		lcd.setCursor(0, 2);
 		lcd.print("Found W5500 Module");
+		bip();
 	}
 	delay(2000);
 
 	// print your local IP address:
+#ifdef Log2Serial
 	Serial.print("My IP address: ");
 	for (byte thisByte = 0; thisByte < 4; thisByte++)
 	{
@@ -120,6 +207,7 @@ void setup()
 		Serial.print(Ethernet.localIP()[thisByte], DEC);
 		Serial.print(".");
 	}
+#endif
 	lcd.home();
 	lcd.clear();
 	lcd.noBlink();
@@ -133,16 +221,18 @@ void setup()
 	lcd.print(Ethernet.localIP()[2]);
 	lcd.print(".");
 	lcd.print(Ethernet.localIP()[3]);
-
+	bip();
+#ifdef Log2Serial
 	Serial.println();
 
 	Serial.print("The DNS server IP address is: ");
 	Serial.println(Ethernet.dnsServerIP());
-
+#endif
 	lcd.setCursor(0, 1);
 	lcd.print("DNS: ");
 	lcd.setCursor(5, 1);
 	lcd.print(Ethernet.dnsServerIP());
+	bip();
 
 	delay(1000);
 	//init SDCard and set noLog define
@@ -150,24 +240,29 @@ void setup()
 	lcd.print("Init SDCard...");
 	if (!card.init(SPI_HALF_SPEED, chipSelect))	//!SD.begin(chipSelect)
 	{
+#ifdef Log2Serial
 		Serial.println("Card failed, or not present");
-
+#endif
 		lcd.setCursor(19, 2);
 		lcd.printByte(6);
 		lcd.setCursor(0, 3);
 		lcd.print("No SDCard ");
 		lcd.printByte(0x7e);
 		lcd.print(" No LOG");
+		bop();
 		// don't do anything more:
 		//while (1);
 	}
 	else
 	{
+#ifdef Log2Serial
 		Serial.println("card initialized.");
+#endif
 		lcd.setCursor(19, 2);
 		lcd.printByte(5);	//should be a bell symbol
 		lcd.setCursor(0, 3);
 		lcd.print("Logging to SDCard...");
+		bip();
 	}
 
 	delay(3000);
@@ -176,6 +271,9 @@ void setup()
 	lcd.setCursor(0, 3);
 	lcd.blink();
 	lcd.print("Starting up...");
+	tone(11, NOTE_D5, 300);
+	delay(100);
+	tone(11, NOTE_F7, 600);
 	delay(3000);
 
 	lcd.clear();
@@ -186,6 +284,8 @@ void setup()
 	delay(1500);
 	lcd.setCursor(19, 0);
 	lcd.printByte(5);
+	bip();
+	delay(100);
 
 	lcd.setCursor(0, 1);
 	lcd.print("Power up sensors");
@@ -193,7 +293,8 @@ void setup()
 	delay(1500);
 	lcd.setCursor(19, 1);
 	lcd.printByte(5);
-
+	bip();
+	delay(100);
 
 	lcd.setCursor(0, 2);
 	lcd.print("Getting RTC ON");
@@ -201,6 +302,8 @@ void setup()
 	delay(1500);
 	lcd.setCursor(19, 2);
 	lcd.printByte(5);
+	bip();
+	delay(100);
 
 	lcd.setCursor(0, 3);
 	lcd.print("Get time from NTP");
@@ -210,11 +313,14 @@ void setup()
 	waitForSync();
 
 	myTZ.setLocation(F("Europe/Rome"));
+#ifdef Log2Serial
 	Serial.println(myTZ.dateTime());
+#endif
 
 	delay(1500);
 	lcd.setCursor(19, 3);
 	lcd.printByte(5);
+	bip();
 
 	lcd.noBlink();
 	lcd.noCursor();
@@ -223,7 +329,7 @@ void setup()
 	// Set sketch compiling time
 	//	clock.setDateTime(__DATE__, __TIME__);
 	delay(2500);
-
+#ifdef Log2Serial
 	//		updateNTP();
 
 	Serial.println();
@@ -243,6 +349,8 @@ void setup()
 	Serial.println("W3C:         " + myTZ.dateTime(W3C));
 	Serial.println();
 	Serial.println(" ... and any other format, like \"" + myTZ.dateTime("l ~t~h~e jS ~o~f F Y, g:i A") + "\"");
+#endif
+	mazalavecia();
 }
 
 void syncRTCtoNTP()
