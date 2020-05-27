@@ -1,3 +1,5 @@
+
+
 #include <Chrono.h>
 #include <LightChrono.h>
 
@@ -7,7 +9,7 @@
 
 #include <SPI.h>
 #include <Ethernet.h>
-
+#include <SD.h>
 //#include <NTPClient.h>
 
 #include <DS3231.h>
@@ -62,7 +64,7 @@ void setup()
 	Serial.println("Initialize Ethernet with DHCP:");
 	lcd.home();
 	lcd.clear();
-	lcd.print("Init Eth DHCP...");
+	lcd.print("Init Eth & SD...");
 	lcd.blink();
 	if (Ethernet.begin(mac) == 0)
 	{
@@ -143,7 +145,34 @@ void setup()
 	lcd.print(Ethernet.dnsServerIP());
 
 	delay(1000);
+	//init SDCard and set noLog define
+	lcd.setCursor(0, 2);
+	lcd.print("Init SDCard...");
+	if (!card.init(SPI_HALF_SPEED, chipSelect))	//!SD.begin(chipSelect)
+	{
+		Serial.println("Card failed, or not present");
 
+		lcd.setCursor(19, 2);
+		lcd.printByte(6);
+		lcd.setCursor(0, 3);
+		lcd.print("No SDCard ");
+		lcd.printByte(0x7e);
+		lcd.print(" No LOG");
+		// don't do anything more:
+		//while (1);
+	}
+	else
+	{
+		Serial.println("card initialized.");
+		lcd.setCursor(19, 2);
+		lcd.printByte(5);	//should be a bell symbol
+		lcd.setCursor(0, 3);
+		lcd.print("Logging to SDCard...");
+	}
+
+	delay(3000);
+
+	lcd.clear();
 	lcd.setCursor(0, 3);
 	lcd.blink();
 	lcd.print("Starting up...");
@@ -352,33 +381,33 @@ void aleSignal()
 		case 0:
 			lcd.setCursor(19, 3);
 			lcd.printByte(0xB0);
-			ciclo=ciclo+1;
+			ciclo = ciclo + 1;
 			break;
-			
+
 		case 1:
 			lcd.setCursor(19, 3);
 			lcd.printByte(8);
-			ciclo=ciclo+1;
+			ciclo = ciclo + 1;
 			break;
-			
+
 		case 2:
 			lcd.setCursor(19, 3);
 			lcd.printByte(0x7C);
-			ciclo=ciclo+1;
+			ciclo = ciclo + 1;
 			break;
-			
+
 		case 3:
 			lcd.setCursor(19, 3);
 			lcd.printByte(0x2F);
-			ciclo=0;
+			ciclo = 0;
 			break;
-			
+
 		default:
-			ciclo = 0;		
+			ciclo = 0;
 	}
 
-//	lcd.setCursor(19, 3);
-//	lcd.blink();
+	//	lcd.setCursor(19, 3);
+	//	lcd.blink();
 }
 
 void loop()
@@ -390,7 +419,7 @@ void loop()
 	printLcdDateTime();
 	getSensorTemp();
 	printTempLcd();
-	
+
 	while (true)
 	{
 
@@ -415,13 +444,13 @@ void loop()
 			aleSignal();
 		}
 
-//		Serial.print("Raw data: ");
-//		Serial.print(dt.year);	 Serial.print("-");
-//		Serial.print(dt.month);	Serial.print("-");
-//		Serial.print(dt.day);		Serial.print(" ");
-//		Serial.print(dt.hour);	 Serial.print(":");
-//		Serial.print(dt.minute); Serial.print(":");
-//		Serial.print(dt.second); Serial.println("");
+		//		Serial.print("Raw data: ");
+		//		Serial.print(dt.year);	 Serial.print("-");
+		//		Serial.print(dt.month);	Serial.print("-");
+		//		Serial.print(dt.day);		Serial.print(" ");
+		//		Serial.print(dt.hour);	 Serial.print(":");
+		//		Serial.print(dt.minute); Serial.print(":");
+		//		Serial.print(dt.second); Serial.println("");
 
 #ifdef GOUDP
 		// send a reply, to the IP address and port that sent us the packet we received
@@ -433,7 +462,7 @@ void loop()
 		ethUdp.write(tempDallas);
 		ethUdp.endPacket();
 #endif
-//		aleSignal();
-//		delay(1000);
+		//		aleSignal();
+		//		delay(1000);
 	}
 }

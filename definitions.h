@@ -64,3 +64,6 @@ uint8_t slash[8] = {0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0};
 //#define printSecond
 
 int ciclo = 0;
+
+Sd2Card card;
+const int chipSelect = 4;	//chipselect SDCard on Arduino Ethernet Shield
