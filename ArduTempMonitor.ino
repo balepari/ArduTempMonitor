@@ -308,35 +308,95 @@ void loop()
 
 	while (true)
 	{
+		char customKey = customKeypad.getKey();
+/*
 
-		if (contaSecondi1.hasPassed(60))
+
+ */
+
+		switch (customKey)
 		{
-			contaSecondi1.restart();
-			getRTCdateTime();
-			printLcdDateTime();
-			printLcdMenu();
+		case '1':
+			Serial.print("Premuto: ");
+			Serial.println(customKey);
+			bip();
+			contaMillisecondi2.stop();
+			mostraContenutoSD_serialPrint();
+			Serial.println("di nuovo in gestisciTastiera");
+			contaMillisecondi2.resume();
+			break;
+		case '2':
+			// contaMillisecondi2.stop();
+			// Serial.print("Timer contaMillisecondi2 is Running: "); Serial.println(contaMillisecondi2.isRunning());
+			Serial.println(Ethernet.localIP());
+			Serial.println(Ethernet.localIP()[0]);
+			Serial.println(Ethernet.localIP()[1]);
+			Serial.println(Ethernet.localIP()[2]);
+			Serial.println(Ethernet.localIP()[3]);
+			// contaMillisecondi2.resume();
+			// Serial.print("Timer contaMillisecondi2 is Running: "); Serial.println(contaMillisecondi2.isRunning());
+			break;
+		case '3':
+			Serial.print("Premuto: ");
+			Serial.println(customKey);
+			bip();
+			// contaMillisecondi2.stop();
+			mostraContenutoSD();
+			Serial.println("di nuovo in gestisciTastiera");
+			// contaMillisecondi2.resume();
+			break;
+		case '4':
+			bip();
+			Serial.print("Premuto: ");
+			Serial.println(customKey);
+			cancellaFileSD();
+			Serial.println("di nuovo in gestisciTastiera");
+			break;
+		case 'A':
+			bip();
+			break;
+		case 'B':
+			bip();
+			break;
+		case 'D':
+			bip();
+// Riavvia();
+			break;
+		case 'C':
+			bop();
+			break;
+		default:
+			break;
 		}
 
-		if (contaSecondi2.hasPassed(61))
-		{
-			contaSecondi2.restart();
-			getSensorTemp();
-			printTempLcd();
+/*		if (contaSecondi1.hasPassed(60))
+   {
+   contaSecondi1.restart();
+   getRTCdateTime();
+   printLcdDateTime();
+   printLcdMenu();
+   }
 
-		}
+   if (contaSecondi2.hasPassed(61))
+   {
+   contaSecondi2.restart();
+   getSensorTemp();
+   printTempLcd();
 
-		if (contaMillisecondi1.hasPassed(250))
-		{
-			contaMillisecondi1.restart();
-			aleSignal();
-		}
+   }
 
-		if (contaMillisecondi2.hasPassed(50))
-		{
-			contaMillisecondi2.restart();
-			gestisciTastiera();
-		}
+   if (contaMillisecondi1.hasPassed(250))
+   {
+   contaMillisecondi1.restart();
+   aleSignal();
+   }
 
+   if (contaMillisecondi2.hasPassed(50))
+   {
+   contaMillisecondi2.restart();
+   gestisciTastiera();
+   }
+ */
 //		Serial.print("Raw data: ");
 //		Serial.print(dt.year);	 Serial.print("-");
 //		Serial.print(dt.month);	Serial.print("-");
@@ -648,6 +708,7 @@ void printTempLcd()
 void getRTCdateTime()
 {
 	// dt = RTC.now();//orologio.getDateTime();
+	dt = orologio1.now();
 }
 
 void aleSignal()
@@ -724,6 +785,13 @@ void gestisciTastiera()
 		mostraContenutoSD();
 		Serial.println("di nuovo in gestisciTastiera");
 		contaMillisecondi2.resume();
+		break;
+	case '4':
+		bip();
+		Serial.print("Premuto: ");
+		Serial.println(customKey);
+		cancellaFileSD();
+		Serial.println("di nuovo in gestisciTastiera");
 		break;
 	case 'A':
 		bip();
@@ -813,11 +881,12 @@ void printDirectory(File dir, int numTabs)
 {
 	while (true)
 	{
-		Serial.println("Dentro a printDirectory");
+		// Serial.println("Dentro a printDirectory");
 		File entry =  dir.openNextFile();
 		if (!entry)
 		{
 // no more files
+			Serial.println("Niente da visualizzare sulla SD!");
 			break;
 		}
 		for (uint8_t i = 0; i < numTabs; i++)
@@ -837,6 +906,57 @@ void printDirectory(File dir, int numTabs)
 			Serial.println(entry.size(), DEC);
 		}
 		entry.close();
+	}
+}
+
+void cancellaFileSD()
+{
+	// contaMillisecondi2.stop();
+	bip();
+	lcd.clear();
+	lcd.home();
+	lcd.print("1-Eliminare tutto");
+	lcd.setCursor(0,1);
+	lcd.print("2-Scegli cosa elim.");
+	lcd.setCursor(0,2);
+	lcd.print("3-Annulla! Annulla!");
+	while (true)
+	{
+		char tastopremuto = customKeypad.getKey();
+		
+		Serial.print("tastopremuto vale: ");
+		Serial.println(tastopremuto);
+		
+		switch (tastopremuto)
+		{
+		case '1': //cancella tutti i file sulla SD
+			bip();
+			pippo = SD.open("/");
+			while (true)
+			{
+				File entry =  pippo.openNextFile();
+				if (!entry)
+				{
+					break;
+				}
+				SD.remove(entry.name());
+			}
+			lcd.clear();
+			lcd.setCursor(7,1);
+			lcd.print("FATTO!");
+			delay(2000);
+			break;
+		case '2': //scegli il file da cancellare
+			bop();
+			lcd.clear();
+			lcd.setCursor(0,1);
+			lcd.print("FUNZIONE NON IMPLEM.");
+			delay(1000);
+			break;
+		case '3': //Annulla Tutto !!
+			bip();
+			break;
+		}
 	}
 }
 
