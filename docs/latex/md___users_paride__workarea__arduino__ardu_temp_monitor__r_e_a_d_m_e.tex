@@ -1,0 +1,102 @@
+This project is a simple thermometer data logger with some specials.\hypertarget{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md1}{}\doxysubsubsection{Main board\+: Arduino Mega 2560}\label{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md1}
+I choose this board for the number of its I/O and more program capacity. So if I want to develop more stuff I don\textquotesingle{}t have to deal with I/O or memory. Also is the only board that I found a junction board with screw terminals so is more stable to connect cable and other stuff to screw terminal instead pinning them into a molex pin.\hypertarget{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md2}{}\doxysubsection{What it does?}\label{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md2}
+
+\begin{DoxyItemize}
+\item Read temperature from D\+S18\+B20
+\item Write on L\+CD with date and time
+\item Send same data via U\+DP packet to a remote server for storing, analysis and graphing (the server has a listening process written in Python that get udp packets and write to mysql server. See ......... for the repos.)
+\end{DoxyItemize}\hypertarget{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md3}{}\doxysubsection{Feature}\label{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md3}
+
+\begin{DoxyItemize}
+\item uses a Dallas D\+S18\+B20 as temperature probe
+\item uses a Dallas D\+S3121 as R\+TC to have clock with date and time
+\item uses a Keyestudio K\+S0156 Ethernet shield which mount W\+I\+Znet W5100 chip (I prefer cabled ethernet connection instead of Wi\+Fi)
+\item uses an I2C L\+CD 20x4 from Quimat just for wiring simplifications and more speedy coding
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{Future implementation}\label{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md5}
+Just to be implemented\+:
+
+
+\begin{DoxyItemize}
+\item \mbox{[} \mbox{]} Touch keyboard in I2C interface from D\+F\+Robot
+\item \mbox{[} \mbox{]} SD card management for storing data (implemented in ethernet shield) just as a backup if remote server connection is broken.
+\end{DoxyItemize}\hypertarget{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md6}{}\doxysection{Library needed}\label{md___users_paride__workarea__arduino__ardu_temp_monitor__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Chrono.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <LightChrono.h>}}
+\end{DoxyCode}
+
+
+This libraries lets you create timer to run things repetitively
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <ezTime.h>}}
+\end{DoxyCode}
+
+
+This library lets you query an N\+TP server for date\&time sync purposes
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <LiquidCrystal\_I2C.h>}}
+\end{DoxyCode}
+
+
+This library lets you communicate with L\+CD via I\textsuperscript{2}C bus
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <SPI.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Ethernet.h>}}
+\end{DoxyCode}
+
+
+This libraries lets you work with W5100 W\+I\+Znet ethernet shield module. The {\ttfamily S\+PI} library is needed because the shield communicates with Arduino via S\+PI
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <DS3231.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Wire.h>}}
+\end{DoxyCode}
+
+
+This libraries lets you query and set R\+TC on Dallas D\+S3231. {\ttfamily Wire} library is needed to support bus communications
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <OneWire.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <DallasTemperature.h>}}
+\end{DoxyCode}
+
+
+This libraries lets you communicate with Dallas D\+S18\+B20 temperature sensor. {\ttfamily One\+Wire} is the library needed to communicate
+
+\DoxyHorRuler{0}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <EthernetUdp.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <EthernetClient.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Dhcp.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <EthernetServer.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include <Dns.h>}}
+\end{DoxyCode}
+
+
+This libraries lets you communicate via ethernet standard protocol such as\+:
+\begin{DoxyItemize}
+\item U\+DP with {\ttfamily Ethernet\+Udp}
+\item get ip from D\+H\+CP with {\ttfamily Dhcp}
+\item resolve D\+NS url\textquotesingle{}s with {\ttfamily Dns}
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+ 

@@ -1,7 +1,6 @@
 #include <Key.h>
 #include <Keypad.h>
 
-
 #include <Chrono.h>
 #include <LightChrono.h>
 
@@ -10,25 +9,23 @@
 #include <LiquidCrystal_I2C.h> //LCD con interfaccia I2C
 
 #include <SPI.h>
-#include <Ethernet.h>
 #include <SD.h>
 
 #include <DS3231M.h>
-// #include <DS3231.h>
 #include <Wire.h>
 
 #include <OneWire.h>
-
 #include <DallasTemperature.h>
 
+#include <Ethernet.h>
 #include <EthernetUdp.h>
 #include <EthernetClient.h>
 #include <Dhcp.h>
 #include <EthernetServer.h>
-#include <Ethernet.h>
 #include <Dns.h>
 
 #include "definitions.h"
+#include "variables.h"
 #include "pitches.h"
 
 
@@ -128,20 +125,19 @@ void setup()
 	delay(2000);
 
 // print your local IP address:
-//#ifdef Log2Serial
+#ifdef Log2Serial
+/*
+Per qualche strano motivo la stampa dell'indirizzo IP restituisce un numero sbagliato nel byte0
+però l'indirizzo viene acquisito correttamente e se dopo il setup viene visualizzato i valori
+dei byte appaiono corretti.
+*/
+
 	Serial.println("My IP address: ");
 	Serial.print("byte 0: "); Serial.println(Ethernet.localIP()[0]);
 	Serial.print("byte 1: "); Serial.println(Ethernet.localIP()[1]);
 	Serial.print("byte 2: "); Serial.println(Ethernet.localIP()[2]);
 	Serial.print("byte 3: "); Serial.println(Ethernet.localIP()[3]);
-
-/*	for (byte thisByte = 0; thisByte < 4; thisByte++)
-   {
-   //		 print the value of each byte of the IP address:
-   Serial.print(Ethernet.localIP()[thisByte]);
-   Serial.print(".");
-   }*/
-//#endif
+#endif
 
 	lcd.home();
 	lcd.clear();

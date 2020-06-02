@@ -1,0 +1,534 @@
+\hypertarget{definitions_8h}{}\doxysection{/\+Users/paride/\+Workarea/\+Arduino/\+Ardu\+Temp\+Monitor/definitions.h File Reference}
+\label{definitions_8h}\index{/Users/paride/Workarea/Arduino/ArduTempMonitor/definitions.h@{/Users/paride/Workarea/Arduino/ArduTempMonitor/definitions.h}}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a578555b277c4367ffb6128ca556b80c9}{E\+Z\+T\+I\+M\+E\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+N\+A\+B\+LE}}
+\item 
+\#define \mbox{\hyperlink{definitions_8h_ade8fe65717cbbc0a6c131d6ae3ad18ce}{E\+Z\+T\+I\+M\+E\+\_\+\+E\+T\+H\+E\+R\+N\+ET}}
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a4260ed8874da804fb9ef9abba200b487}{O\+N\+E\+\_\+\+W\+I\+R\+E\+\_\+\+B\+US}}~3
+\item 
+\#define \mbox{\hyperlink{definitions_8h_a3737be7ec47f21de3b2859fe6855925c}{print\+Byte}}(args)~print(args,B\+Y\+TE);
+\item 
+\#define \mbox{\hyperlink{definitions_8h_adc0f4f39d16e65cec69cc604c44105f1}{Log2\+Serial}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Liquid\+Crystal\+\_\+\+I2C \mbox{\hyperlink{definitions_8h_a7392e8043ba37d68cf0d13e0264acd85}{lcd}} (0x3F, 20, 4)
+\item 
+I\+P\+Address \mbox{\hyperlink{definitions_8h_a0ff41b6f3680327bdf29bf69f27a90d2}{ip\+\_\+remoto}} (10, 1, 2, 17)
+\item 
+One\+Wire \mbox{\hyperlink{definitions_8h_a8a1d00f74fee641b711f7f00b8053c1a}{one\+Wire}} (\mbox{\hyperlink{definitions_8h_a4260ed8874da804fb9ef9abba200b487}{O\+N\+E\+\_\+\+W\+I\+R\+E\+\_\+\+B\+US}})
+\item 
+Chrono \mbox{\hyperlink{definitions_8h_a1d1a9034154000c81b0b0a1fac41e8e4}{conta\+Secondi1}} (Chrono\+::\+S\+E\+C\+O\+N\+DS)
+\item 
+Chrono \mbox{\hyperlink{definitions_8h_ae776eb67025c931ae173b5a5dd0d7471}{conta\+Secondi2}} (Chrono\+::\+S\+E\+C\+O\+N\+DS)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+byte \mbox{\hyperlink{definitions_8h_aea3f7775fecafb66a619eb2dcb0357bd}{mac}} \mbox{[}$\,$\mbox{]}
+\item 
+unsigned int \mbox{\hyperlink{definitions_8h_ac240824c9b35035b41bc24ee200565a2}{local\+Port}} = 5005
+\item 
+char \mbox{\hyperlink{definitions_8h_a51b20159e0d287edf97e40eb018f8043}{packet\+Buffer}} \mbox{[}U\+D\+P\+\_\+\+T\+X\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+M\+A\+X\+\_\+\+S\+I\+ZE\mbox{]}
+\item 
+Ethernet\+U\+DP \mbox{\hyperlink{definitions_8h_a81c372ea7f6f1687aee5b94a658f2c84}{eth\+Udp}}
+\item 
+Dallas\+Temperature sensors \& \mbox{\hyperlink{definitions_8h_a18aa2e713b723d14e68fe9df63be78a3}{one\+Wire}}
+\item 
+D\+S3231\+M\+\_\+\+Class \mbox{\hyperlink{definitions_8h_ab93ebff8183ad180150cc4ea6cc9af07}{orologio1}}
+\item 
+Date\+Time \mbox{\hyperlink{definitions_8h_aa444510b9dfc846ee0c23536208d8d9d}{dt}}
+\item 
+Timezone \mbox{\hyperlink{definitions_8h_a42aa35e698cec933fef4b49af2102155}{my\+TZ}}
+\item 
+Chrono \mbox{\hyperlink{definitions_8h_ad94f61c3c555b9deeb0c57c5b80b3053}{conta\+Millisecondi1}}
+\item 
+Chrono \mbox{\hyperlink{definitions_8h_a576c8ba253573898cf21ffd007969d34}{conta\+Millisecondi2}}
+\item 
+Ethernet\+U\+DP \mbox{\hyperlink{definitions_8h_a4b6bf923fdd7b4856f5c48080beccb58}{ntp\+U\+DP}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a8ade45d719502069799ce026a1c99f75}{bell}} \mbox{[}8\mbox{]} = \{0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_ae88a7c7297bdb96d0a40d1175b1987ee}{note}} \mbox{[}8\mbox{]} = \{0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a95255433771c594572a20a1d04cbbc67}{clocks}} \mbox{[}8\mbox{]} = \{0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a618fc638c6f6e0ed5e346a463629dfc0}{heart}} \mbox{[}8\mbox{]} = \{0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a536b749e437a2f2f02cf57232cc95803}{duck}} \mbox{[}8\mbox{]} = \{0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a610412e14f385496e1ceb046e3d82861}{check}} \mbox{[}8\mbox{]} = \{0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_ae570a9d0e1ad3e3ffefeb25ae7d147d2}{cross}} \mbox{[}8\mbox{]} = \{0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a6be50511124912225f6fe9b951dd9c04}{retarrow}} \mbox{[}8\mbox{]} = \{ 0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4\}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{definitions_8h_a8bd1d9d540904c7ef8b7f41a81a21aa6}{slash}} \mbox{[}8\mbox{]} = \{0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0\}
+\item 
+int \mbox{\hyperlink{definitions_8h_af843866b0f315aebc8103b4ff2dffefe}{ciclo}} = 0
+\item 
+Sd2\+Card \mbox{\hyperlink{definitions_8h_aeeb69ee529b0f58271aa28e823825f77}{card}}
+\item 
+Sd\+Volume \mbox{\hyperlink{definitions_8h_a89ea83df4812c74a5c11a988458471c8}{volume}}
+\item 
+Sd\+File \mbox{\hyperlink{definitions_8h_a04284a6711f66caf6c351007f90d935e}{root}}
+\item 
+File \mbox{\hyperlink{definitions_8h_a9495016829b1dabc03ee0c85d89937b9}{pippo}}
+\item 
+const int \mbox{\hyperlink{definitions_8h_a266db0f4dbdfbc06ea34c96f66bebed3}{chip\+Select}} = 4
+\item 
+bool \mbox{\hyperlink{definitions_8h_acbaa72f44f9cc30ccb93d14422111f5e}{sd\+Present}} = false
+\item 
+const byte \mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}} = 4
+\item 
+const byte \mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}} = 4
+\item 
+char \mbox{\hyperlink{definitions_8h_ada2ba6403f68f07992cb2b1b6b6ad35f}{hexa\+Keys}} \mbox{[}\mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}\mbox{]}\mbox{[}\mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}}\mbox{]}
+\item 
+byte \mbox{\hyperlink{definitions_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}} \mbox{[}\mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}\mbox{]} = \{23, 25, 27, 29\}
+\item 
+byte \mbox{\hyperlink{definitions_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}} \mbox{[}\mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}}\mbox{]} = \{22, 24, 26, 28\}
+\item 
+Keypad \mbox{\hyperlink{definitions_8h_a1d289fcc804ecdd92dfd8fef8f740bf0}{custom\+Keypad}} = Keypad( make\+Keymap(\mbox{\hyperlink{definitions_8h_ada2ba6403f68f07992cb2b1b6b6ad35f}{hexa\+Keys}}), \mbox{\hyperlink{definitions_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{definitions_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}, \mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{definitions_8h_ade8fe65717cbbc0a6c131d6ae3ad18ce}\label{definitions_8h_ade8fe65717cbbc0a6c131d6ae3ad18ce}} 
+\index{definitions.h@{definitions.h}!EZTIME\_ETHERNET@{EZTIME\_ETHERNET}}
+\index{EZTIME\_ETHERNET@{EZTIME\_ETHERNET}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{EZTIME\_ETHERNET}{EZTIME\_ETHERNET}}
+{\footnotesize\ttfamily \#define E\+Z\+T\+I\+M\+E\+\_\+\+E\+T\+H\+E\+R\+N\+ET}
+
+
+
+Definition at line 8 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a578555b277c4367ffb6128ca556b80c9}\label{definitions_8h_a578555b277c4367ffb6128ca556b80c9}} 
+\index{definitions.h@{definitions.h}!EZTIME\_NETWORK\_ENABLE@{EZTIME\_NETWORK\_ENABLE}}
+\index{EZTIME\_NETWORK\_ENABLE@{EZTIME\_NETWORK\_ENABLE}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{EZTIME\_NETWORK\_ENABLE}{EZTIME\_NETWORK\_ENABLE}}
+{\footnotesize\ttfamily \#define E\+Z\+T\+I\+M\+E\+\_\+\+N\+E\+T\+W\+O\+R\+K\+\_\+\+E\+N\+A\+B\+LE}
+
+
+
+Definition at line 7 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_adc0f4f39d16e65cec69cc604c44105f1}\label{definitions_8h_adc0f4f39d16e65cec69cc604c44105f1}} 
+\index{definitions.h@{definitions.h}!Log2Serial@{Log2Serial}}
+\index{Log2Serial@{Log2Serial}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{Log2Serial}{Log2Serial}}
+{\footnotesize\ttfamily \#define Log2\+Serial}
+
+
+
+Definition at line 79 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a4260ed8874da804fb9ef9abba200b487}\label{definitions_8h_a4260ed8874da804fb9ef9abba200b487}} 
+\index{definitions.h@{definitions.h}!ONE\_WIRE\_BUS@{ONE\_WIRE\_BUS}}
+\index{ONE\_WIRE\_BUS@{ONE\_WIRE\_BUS}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ONE\_WIRE\_BUS}{ONE\_WIRE\_BUS}}
+{\footnotesize\ttfamily \#define O\+N\+E\+\_\+\+W\+I\+R\+E\+\_\+\+B\+US~3}
+
+
+
+Definition at line 10 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a3737be7ec47f21de3b2859fe6855925c}\label{definitions_8h_a3737be7ec47f21de3b2859fe6855925c}} 
+\index{definitions.h@{definitions.h}!printByte@{printByte}}
+\index{printByte@{printByte}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{printByte}{printByte}}
+{\footnotesize\ttfamily \#define print\+Byte(\begin{DoxyParamCaption}\item[{}]{args }\end{DoxyParamCaption})~print(args,B\+Y\+TE);}
+
+
+
+Definition at line 15 of file definitions.\+h.
+
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{definitions_8h_a1d1a9034154000c81b0b0a1fac41e8e4}\label{definitions_8h_a1d1a9034154000c81b0b0a1fac41e8e4}} 
+\index{definitions.h@{definitions.h}!contaSecondi1@{contaSecondi1}}
+\index{contaSecondi1@{contaSecondi1}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{contaSecondi1()}{contaSecondi1()}}
+{\footnotesize\ttfamily Chrono conta\+Secondi1 (\begin{DoxyParamCaption}\item[{Chrono\+::\+S\+E\+C\+O\+N\+DS}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{definitions_8h_ae776eb67025c931ae173b5a5dd0d7471}\label{definitions_8h_ae776eb67025c931ae173b5a5dd0d7471}} 
+\index{definitions.h@{definitions.h}!contaSecondi2@{contaSecondi2}}
+\index{contaSecondi2@{contaSecondi2}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{contaSecondi2()}{contaSecondi2()}}
+{\footnotesize\ttfamily Chrono conta\+Secondi2 (\begin{DoxyParamCaption}\item[{Chrono\+::\+S\+E\+C\+O\+N\+DS}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{definitions_8h_a0ff41b6f3680327bdf29bf69f27a90d2}\label{definitions_8h_a0ff41b6f3680327bdf29bf69f27a90d2}} 
+\index{definitions.h@{definitions.h}!ip\_remoto@{ip\_remoto}}
+\index{ip\_remoto@{ip\_remoto}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ip\_remoto()}{ip\_remoto()}}
+{\footnotesize\ttfamily I\+P\+Address ip\+\_\+remoto (\begin{DoxyParamCaption}\item[{10}]{,  }\item[{1}]{,  }\item[{2}]{,  }\item[{17}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{definitions_8h_a7392e8043ba37d68cf0d13e0264acd85}\label{definitions_8h_a7392e8043ba37d68cf0d13e0264acd85}} 
+\index{definitions.h@{definitions.h}!lcd@{lcd}}
+\index{lcd@{lcd}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{lcd()}{lcd()}}
+{\footnotesize\ttfamily Liquid\+Crystal\+\_\+\+I2C lcd (\begin{DoxyParamCaption}\item[{0x3F}]{,  }\item[{20}]{,  }\item[{4}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{definitions_8h_a8a1d00f74fee641b711f7f00b8053c1a}\label{definitions_8h_a8a1d00f74fee641b711f7f00b8053c1a}} 
+\index{definitions.h@{definitions.h}!oneWire@{oneWire}}
+\index{oneWire@{oneWire}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{oneWire()}{oneWire()}}
+{\footnotesize\ttfamily One\+Wire one\+Wire (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{definitions_8h_a4260ed8874da804fb9ef9abba200b487}{O\+N\+E\+\_\+\+W\+I\+R\+E\+\_\+\+B\+US}}}]{ }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{definitions_8h_a8ade45d719502069799ce026a1c99f75}\label{definitions_8h_a8ade45d719502069799ce026a1c99f75}} 
+\index{definitions.h@{definitions.h}!bell@{bell}}
+\index{bell@{bell}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{bell}{bell}}
+{\footnotesize\ttfamily uint8\+\_\+t bell\mbox{[}8\mbox{]} = \{0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4\}}
+
+
+
+Definition at line 61 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_aeeb69ee529b0f58271aa28e823825f77}\label{definitions_8h_aeeb69ee529b0f58271aa28e823825f77}} 
+\index{definitions.h@{definitions.h}!card@{card}}
+\index{card@{card}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{card}{card}}
+{\footnotesize\ttfamily Sd2\+Card card}
+
+
+
+Definition at line 82 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a610412e14f385496e1ceb046e3d82861}\label{definitions_8h_a610412e14f385496e1ceb046e3d82861}} 
+\index{definitions.h@{definitions.h}!check@{check}}
+\index{check@{check}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{check}{check}}
+{\footnotesize\ttfamily uint8\+\_\+t check\mbox{[}8\mbox{]} = \{0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0\}}
+
+
+
+Definition at line 66 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a266db0f4dbdfbc06ea34c96f66bebed3}\label{definitions_8h_a266db0f4dbdfbc06ea34c96f66bebed3}} 
+\index{definitions.h@{definitions.h}!chipSelect@{chipSelect}}
+\index{chipSelect@{chipSelect}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{chipSelect}{chipSelect}}
+{\footnotesize\ttfamily const int chip\+Select = 4}
+
+
+
+Definition at line 88 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_af843866b0f315aebc8103b4ff2dffefe}\label{definitions_8h_af843866b0f315aebc8103b4ff2dffefe}} 
+\index{definitions.h@{definitions.h}!ciclo@{ciclo}}
+\index{ciclo@{ciclo}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ciclo}{ciclo}}
+{\footnotesize\ttfamily int ciclo = 0}
+
+
+
+Definition at line 80 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a95255433771c594572a20a1d04cbbc67}\label{definitions_8h_a95255433771c594572a20a1d04cbbc67}} 
+\index{definitions.h@{definitions.h}!clocks@{clocks}}
+\index{clocks@{clocks}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{clocks}{clocks}}
+{\footnotesize\ttfamily uint8\+\_\+t clocks\mbox{[}8\mbox{]} = \{0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0\}}
+
+
+
+Definition at line 63 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_aa9fece7b062124080e4b2976f9a8b675}\label{definitions_8h_aa9fece7b062124080e4b2976f9a8b675}} 
+\index{definitions.h@{definitions.h}!colPins@{colPins}}
+\index{colPins@{colPins}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{colPins}{colPins}}
+{\footnotesize\ttfamily byte col\+Pins\mbox{[}\mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}}\mbox{]} = \{22, 24, 26, 28\}}
+
+
+
+Definition at line 101 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}\label{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}} 
+\index{definitions.h@{definitions.h}!COLS@{COLS}}
+\index{COLS@{COLS}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{COLS}{COLS}}
+{\footnotesize\ttfamily const byte C\+O\+LS = 4}
+
+
+
+Definition at line 92 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ad94f61c3c555b9deeb0c57c5b80b3053}\label{definitions_8h_ad94f61c3c555b9deeb0c57c5b80b3053}} 
+\index{definitions.h@{definitions.h}!contaMillisecondi1@{contaMillisecondi1}}
+\index{contaMillisecondi1@{contaMillisecondi1}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{contaMillisecondi1}{contaMillisecondi1}}
+{\footnotesize\ttfamily Chrono conta\+Millisecondi1}
+
+
+
+Definition at line 53 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a576c8ba253573898cf21ffd007969d34}\label{definitions_8h_a576c8ba253573898cf21ffd007969d34}} 
+\index{definitions.h@{definitions.h}!contaMillisecondi2@{contaMillisecondi2}}
+\index{contaMillisecondi2@{contaMillisecondi2}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{contaMillisecondi2}{contaMillisecondi2}}
+{\footnotesize\ttfamily Chrono conta\+Millisecondi2}
+
+
+
+Definition at line 54 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ae570a9d0e1ad3e3ffefeb25ae7d147d2}\label{definitions_8h_ae570a9d0e1ad3e3ffefeb25ae7d147d2}} 
+\index{definitions.h@{definitions.h}!cross@{cross}}
+\index{cross@{cross}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{cross}{cross}}
+{\footnotesize\ttfamily uint8\+\_\+t cross\mbox{[}8\mbox{]} = \{0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0\}}
+
+
+
+Definition at line 67 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a1d289fcc804ecdd92dfd8fef8f740bf0}\label{definitions_8h_a1d289fcc804ecdd92dfd8fef8f740bf0}} 
+\index{definitions.h@{definitions.h}!customKeypad@{customKeypad}}
+\index{customKeypad@{customKeypad}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{customKeypad}{customKeypad}}
+{\footnotesize\ttfamily Keypad custom\+Keypad = Keypad( make\+Keymap(\mbox{\hyperlink{definitions_8h_ada2ba6403f68f07992cb2b1b6b6ad35f}{hexa\+Keys}}), \mbox{\hyperlink{definitions_8h_a6d6753e0ae098b31e2f84d4024e361cf}{row\+Pins}}, \mbox{\hyperlink{definitions_8h_aa9fece7b062124080e4b2976f9a8b675}{col\+Pins}}, \mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}, \mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}})}
+
+
+
+Definition at line 104 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_aa444510b9dfc846ee0c23536208d8d9d}\label{definitions_8h_aa444510b9dfc846ee0c23536208d8d9d}} 
+\index{definitions.h@{definitions.h}!dt@{dt}}
+\index{dt@{dt}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{dt}{dt}}
+{\footnotesize\ttfamily Date\+Time dt}
+
+
+
+Definition at line 48 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a536b749e437a2f2f02cf57232cc95803}\label{definitions_8h_a536b749e437a2f2f02cf57232cc95803}} 
+\index{definitions.h@{definitions.h}!duck@{duck}}
+\index{duck@{duck}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{duck}{duck}}
+{\footnotesize\ttfamily uint8\+\_\+t duck\mbox{[}8\mbox{]} = \{0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0\}}
+
+
+
+Definition at line 65 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a81c372ea7f6f1687aee5b94a658f2c84}\label{definitions_8h_a81c372ea7f6f1687aee5b94a658f2c84}} 
+\index{definitions.h@{definitions.h}!ethUdp@{ethUdp}}
+\index{ethUdp@{ethUdp}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ethUdp}{ethUdp}}
+{\footnotesize\ttfamily Ethernet\+U\+DP eth\+Udp}
+
+
+
+Definition at line 39 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a618fc638c6f6e0ed5e346a463629dfc0}\label{definitions_8h_a618fc638c6f6e0ed5e346a463629dfc0}} 
+\index{definitions.h@{definitions.h}!heart@{heart}}
+\index{heart@{heart}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{heart}{heart}}
+{\footnotesize\ttfamily uint8\+\_\+t heart\mbox{[}8\mbox{]} = \{0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0\}}
+
+
+
+Definition at line 64 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ada2ba6403f68f07992cb2b1b6b6ad35f}\label{definitions_8h_ada2ba6403f68f07992cb2b1b6b6ad35f}} 
+\index{definitions.h@{definitions.h}!hexaKeys@{hexaKeys}}
+\index{hexaKeys@{hexaKeys}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{hexaKeys}{hexaKeys}}
+{\footnotesize\ttfamily char hexa\+Keys\mbox{[}\mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}\mbox{]}\mbox{[}\mbox{\hyperlink{definitions_8h_aefd90f1160eaa105bc910d4d7c46b815}{C\+O\+LS}}\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    \{\textcolor{charliteral}{'1'},\textcolor{charliteral}{'2'},\textcolor{charliteral}{'3'},\textcolor{charliteral}{'A'}\},}
+\DoxyCodeLine{    \{\textcolor{charliteral}{'4'},\textcolor{charliteral}{'5'},\textcolor{charliteral}{'6'},\textcolor{charliteral}{'B'}\},}
+\DoxyCodeLine{    \{\textcolor{charliteral}{'7'},\textcolor{charliteral}{'8'},\textcolor{charliteral}{'9'},\textcolor{charliteral}{'C'}\},}
+\DoxyCodeLine{    \{\textcolor{charliteral}{'*'},\textcolor{charliteral}{'0'},\textcolor{charliteral}{'\#'},\textcolor{charliteral}{'D'}\}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Definition at line 94 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ac240824c9b35035b41bc24ee200565a2}\label{definitions_8h_ac240824c9b35035b41bc24ee200565a2}} 
+\index{definitions.h@{definitions.h}!localPort@{localPort}}
+\index{localPort@{localPort}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{localPort}{localPort}}
+{\footnotesize\ttfamily unsigned int local\+Port = 5005}
+
+
+
+Definition at line 28 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_aea3f7775fecafb66a619eb2dcb0357bd}\label{definitions_8h_aea3f7775fecafb66a619eb2dcb0357bd}} 
+\index{definitions.h@{definitions.h}!mac@{mac}}
+\index{mac@{mac}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{mac}{mac}}
+{\footnotesize\ttfamily byte mac\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    0x00, 0xAA, 0xBB, 0xCC, 0xDE, 0x02}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Definition at line 23 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a42aa35e698cec933fef4b49af2102155}\label{definitions_8h_a42aa35e698cec933fef4b49af2102155}} 
+\index{definitions.h@{definitions.h}!myTZ@{myTZ}}
+\index{myTZ@{myTZ}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{myTZ}{myTZ}}
+{\footnotesize\ttfamily Timezone my\+TZ}
+
+
+
+Definition at line 49 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ae88a7c7297bdb96d0a40d1175b1987ee}\label{definitions_8h_ae88a7c7297bdb96d0a40d1175b1987ee}} 
+\index{definitions.h@{definitions.h}!note@{note}}
+\index{note@{note}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{note}{note}}
+{\footnotesize\ttfamily uint8\+\_\+t note\mbox{[}8\mbox{]} = \{0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0\}}
+
+
+
+Definition at line 62 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a4b6bf923fdd7b4856f5c48080beccb58}\label{definitions_8h_a4b6bf923fdd7b4856f5c48080beccb58}} 
+\index{definitions.h@{definitions.h}!ntpUDP@{ntpUDP}}
+\index{ntpUDP@{ntpUDP}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ntpUDP}{ntpUDP}}
+{\footnotesize\ttfamily Ethernet\+U\+DP ntp\+U\+DP}
+
+
+
+Definition at line 56 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a18aa2e713b723d14e68fe9df63be78a3}\label{definitions_8h_a18aa2e713b723d14e68fe9df63be78a3}} 
+\index{definitions.h@{definitions.h}!oneWire@{oneWire}}
+\index{oneWire@{oneWire}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{oneWire}{oneWire}}
+{\footnotesize\ttfamily Dallas\+Temperature sensors\& one\+Wire}
+
+
+
+Definition at line 42 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_ab93ebff8183ad180150cc4ea6cc9af07}\label{definitions_8h_ab93ebff8183ad180150cc4ea6cc9af07}} 
+\index{definitions.h@{definitions.h}!orologio1@{orologio1}}
+\index{orologio1@{orologio1}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{orologio1}{orologio1}}
+{\footnotesize\ttfamily D\+S3231\+M\+\_\+\+Class orologio1}
+
+
+
+Definition at line 46 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a51b20159e0d287edf97e40eb018f8043}\label{definitions_8h_a51b20159e0d287edf97e40eb018f8043}} 
+\index{definitions.h@{definitions.h}!packetBuffer@{packetBuffer}}
+\index{packetBuffer@{packetBuffer}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{packetBuffer}{packetBuffer}}
+{\footnotesize\ttfamily char packet\+Buffer\mbox{[}U\+D\+P\+\_\+\+T\+X\+\_\+\+P\+A\+C\+K\+E\+T\+\_\+\+M\+A\+X\+\_\+\+S\+I\+ZE\mbox{]}}
+
+
+
+Definition at line 31 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a9495016829b1dabc03ee0c85d89937b9}\label{definitions_8h_a9495016829b1dabc03ee0c85d89937b9}} 
+\index{definitions.h@{definitions.h}!pippo@{pippo}}
+\index{pippo@{pippo}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{pippo}{pippo}}
+{\footnotesize\ttfamily File pippo}
+
+
+
+Definition at line 86 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a6be50511124912225f6fe9b951dd9c04}\label{definitions_8h_a6be50511124912225f6fe9b951dd9c04}} 
+\index{definitions.h@{definitions.h}!retarrow@{retarrow}}
+\index{retarrow@{retarrow}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{retarrow}{retarrow}}
+{\footnotesize\ttfamily uint8\+\_\+t retarrow\mbox{[}8\mbox{]} = \{ 0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4\}}
+
+
+
+Definition at line 68 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a04284a6711f66caf6c351007f90d935e}\label{definitions_8h_a04284a6711f66caf6c351007f90d935e}} 
+\index{definitions.h@{definitions.h}!root@{root}}
+\index{root@{root}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{root}{root}}
+{\footnotesize\ttfamily Sd\+File root}
+
+
+
+Definition at line 84 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a6d6753e0ae098b31e2f84d4024e361cf}\label{definitions_8h_a6d6753e0ae098b31e2f84d4024e361cf}} 
+\index{definitions.h@{definitions.h}!rowPins@{rowPins}}
+\index{rowPins@{rowPins}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{rowPins}{rowPins}}
+{\footnotesize\ttfamily byte row\+Pins\mbox{[}\mbox{\hyperlink{definitions_8h_a829655a147df70dd4cc94eae40a2204e}{R\+O\+WS}}\mbox{]} = \{23, 25, 27, 29\}}
+
+
+
+Definition at line 100 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a829655a147df70dd4cc94eae40a2204e}\label{definitions_8h_a829655a147df70dd4cc94eae40a2204e}} 
+\index{definitions.h@{definitions.h}!ROWS@{ROWS}}
+\index{ROWS@{ROWS}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{ROWS}{ROWS}}
+{\footnotesize\ttfamily const byte R\+O\+WS = 4}
+
+
+
+Definition at line 91 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_acbaa72f44f9cc30ccb93d14422111f5e}\label{definitions_8h_acbaa72f44f9cc30ccb93d14422111f5e}} 
+\index{definitions.h@{definitions.h}!sdPresent@{sdPresent}}
+\index{sdPresent@{sdPresent}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{sdPresent}{sdPresent}}
+{\footnotesize\ttfamily bool sd\+Present = false}
+
+
+
+Definition at line 89 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a8bd1d9d540904c7ef8b7f41a81a21aa6}\label{definitions_8h_a8bd1d9d540904c7ef8b7f41a81a21aa6}} 
+\index{definitions.h@{definitions.h}!slash@{slash}}
+\index{slash@{slash}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{slash}{slash}}
+{\footnotesize\ttfamily uint8\+\_\+t slash\mbox{[}8\mbox{]} = \{0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0\}}
+
+
+
+Definition at line 69 of file definitions.\+h.
+
+\mbox{\Hypertarget{definitions_8h_a89ea83df4812c74a5c11a988458471c8}\label{definitions_8h_a89ea83df4812c74a5c11a988458471c8}} 
+\index{definitions.h@{definitions.h}!volume@{volume}}
+\index{volume@{volume}!definitions.h@{definitions.h}}
+\doxysubsubsection{\texorpdfstring{volume}{volume}}
+{\footnotesize\ttfamily Sd\+Volume volume}
+
+
+
+Definition at line 83 of file definitions.\+h.
+
