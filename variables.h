@@ -4,9 +4,9 @@
  */
 
 
-//! Library for communication with I2C LCD
+//! Library for communication with I<SUP>2</SUP>C LCD
 /*!
-  \param 0x3F is the address on I2C bus for LCD
+  \param 0x3F is the address on I<SUP>2</SUP>C bus for LCD
   \param 20 is the number of cols of LCD
   \param 4 is the number of rows of LCD
  */
