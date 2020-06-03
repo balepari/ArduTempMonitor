@@ -3,14 +3,13 @@
  *
  */
 
-
-//! Library for communication with I<SUP>2</SUP>C LCD
+//! LiquidCrystal_I2C Library for communication with I<SUP>2</SUP>C LCD
 /*!
   \param 0x3F is the address on I<SUP>2</SUP>C bus for LCD
   \param 20 is the number of cols of LCD
   \param 4 is the number of rows of LCD
  */
-LiquidCrystal_I2C lcd(0x3F, 20, 4);	
+LiquidCrystal_I2C myLcd(0x3F, 20, 4);	
 
 
 //! Ethernet Shield require a mac address if not specified by productor
@@ -40,19 +39,19 @@ EthernetUDP ethUdp;	/*!< Defining EthernetUDP object needed for communications *
   \param oneWire the name of the object of type OneWire that create communications
   \param ONE_WIRE_BUS the specifications of what pin should be used to be the 1-Wire bus
  */
-OneWire oneWire(ONE_WIRE_BUS);
+OneWire 1_Wire(ONE_WIRE_BUS);
 
 //! Creating object on 1-wire Dallas bus to communicate with.
 /*!
   \param sensors the name of the object of type DallasTemperature that create communications
   \param &oneWire the specifications of what object handles the 1-Wire bus communications
  */
-DallasTemperature sensors(&oneWire);
+DallasTemperature dsTemp(&1_Wire);
 
 
 DS3231M_Class orologio1;	/*!< Defining object for RTC Clock. Don't call object 'clock' because that should be a reserved word of the library used in subs or funcitions */
 
-DateTime dt;	/*!< The structure object that handles data for date and time */
+DateTime Tardis;	/*!< The structure object that handles data for date and time */
 Timezone myTZ;	/*!< The structure object that handles timezone data for correct NTP query */
 
 /*!
@@ -83,7 +82,7 @@ uint8_t slash[8] = {0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0};
 
 
 
-int ciclo = 0;	//COSA FACEVA ???
+int ciclo = 0;	//indice per l'aleSignal
 
 
 /*!
@@ -91,9 +90,9 @@ int ciclo = 0;	//COSA FACEVA ???
  * Also the arduino.cc online documentations didn't show all the member and functions that can be used
  * Not only standard SD command are available, but you can use also the ones imported from library called internally by SD.h
  */
-Sd2Card card;	/*!< Handles the object to talk with SDCard */
-SdVolume volume;	/*!< Handles the object to interact with the filesystem on SDCard */
-SdFile root;	/*!< Handles the object to work on filesystem of SDVolume type anda accessing them (usually files and dirs) */
+Sd2Card scheda;	/*!< Handles the object to talk with SDCard */
+SdVolume filesys;	/*!< Handles the object to interact with the filesystem on SDCard */
+SdFile radice;	/*!< Handles the object to work on filesystem of SDVolume type anda accessing them (usually files and dirs) */
 
 File pippo;	//RINOMINARE IN QUALCOSA DI PIU' DECENTE !!!
 
@@ -129,6 +128,6 @@ byte colPins[COLS] = {22, 24, 26, 28}; //connect to the column pinouts of the ke
   \param ROWS is the variable that indicates how many rows the keypad is composed
   \param COLS is the variable that indicates how many cols the keypad is composed
  */
-Keypad customKeypad = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+Keypad tastierino = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
 
 

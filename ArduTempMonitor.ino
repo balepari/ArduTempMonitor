@@ -1,28 +1,28 @@
-#include <Key.h>
-#include <Keypad.h>
+// #include <Key.h>
+// #include <Keypad.h>
 
-#include <Chrono.h>
-#include <LightChrono.h>
+// #include <Chrono.h>
+// #include <LightChrono.h>
 
-#include <ezTime.h> //for NTP query and sync
+// #include <ezTime.h> //for NTP query and sync
 
-#include <LiquidCrystal_I2C.h> //LCD con interfaccia I2C
+// #include <LiquidCrystal_I2C.h> //LCD con interfaccia I2C
 
-#include <SPI.h>
-#include <SD.h>
+// #include <SPI.h>
+// #include <SD.h>
 
-#include <DS3231M.h>
-#include <Wire.h>
+// #include <DS3231M.h>
+// #include <Wire.h>
 
-#include <OneWire.h>
-#include <DallasTemperature.h>
+// #include <OneWire.h>
+// #include <DallasTemperature.h>
 
-#include <Ethernet.h>
-#include <EthernetUdp.h>
-#include <EthernetClient.h>
-#include <Dhcp.h>
-#include <EthernetServer.h>
-#include <Dns.h>
+// #include <Ethernet.h>
+// #include <EthernetUdp.h>
+// #include <EthernetClient.h>
+// #include <Dhcp.h>
+// #include <EthernetServer.h>
+// #include <Dns.h>
 
 #include "definitions.h"
 #include "variables.h"
