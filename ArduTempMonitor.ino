@@ -224,7 +224,8 @@ Keypad tastierino = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
    9 = Arduino "shutdown"
  */
 int iStato = 0;
-
+bool bRecordingStatus;
+int iAleCiclo = 0;    //indice per l'aleSignal
 
 /**
  ****************************************
@@ -332,7 +333,7 @@ void printTempLcd(LiquidCrystal_PCF8574 lcd);
 DateTime getRTCdateTime(DS3231M_Class orologio);
 int aleSignal(int ciclo, LiquidCrystal_PCF8574 lcd);
 // void gestisciTastiera(void);
-void printLcdMenu(LiquidCrystal_PCF8574 lcd);
+void printLcdMenu(LiquidCrystal_PCF8574 lcd, int stato);
 void mostraContenutoSD_serialPrint(Sd2Card card, SdVolume volume, SdFile root);
 void mostraContenutoSD(File objFile, int tabs);
 void printDirectory(File dir, int numTabs);
@@ -771,17 +772,6 @@ void cancellaFileSD(LiquidCrystal_PCF8574 lcd, File objFile, Keypad customKeypad
 
    }*/
 
-
-void printLcdMenu(LiquidCrystal_PCF8574 lcd)
-{
-	lcd.setCursor(0, 3);
-	lcd.print("A-Menu B-Stat D-Rst");
-}
-
-
-
-
-
 void scriviDatiSD(void)
 {
 	//scrive i dati sulla SD in 3 file separati: IP.txt, DataOra.txt e Temp.txt per verifica gestione di più file
@@ -901,7 +891,31 @@ int iconarecorder(int step, LiquidCrystal_PCF8574 lcd)
 	return step;
 }
 
+void printLcdMenu(LiquidCrystal_PCF8574 lcd, int stato)
+{
+	switch (stato)
+	{
+	case 0: // on display shows: Date, Time, Temperature reading, aleSignal, recording status, ecc... and Menu
+		lcd.setCursor(0, 3);
+		lcd.print("A-Menu B-Stat D-Bye!");
+		break;
 
+	case 1: // Shows utility menu with device info, SDCard status, ecc...
+		break;
+
+	case 2: // shows SDCard management menu with list SD contnent, erase single file, wipe SDCard
+		break;
+
+	case 3: // Shows data acquisition setup to set timing of record, nr of reading in record's timing, if keep only last value or calc mena value
+		break;
+
+	default:
+		stato = 0;
+		break;
+	}
+
+
+}
 
 /**
  ****************************************
@@ -1178,52 +1192,68 @@ void setup()
 void loop()
 {
 	syncRTCtoNTP(myTZ, orologio1);
-	int iCicloIcona = 0;
 	myLcd.home();
-	Chrono contaMillisecondi1;
-	Chrono contaSecondi1(Chrono::SECONDS);
-	Chrono contaSecondi2(Chrono::SECONDS);
 
-	int iAleCiclo = 0; //indice per l'aleSignal
 	myLcd.clear();
 	Tardis = getRTCdateTime(orologio1);
 	printLcdDateTime(myLcd, Tardis);
 	getSensorTemp(one_Wire, dsTemp);
 	printTempLcd(myLcd);
-
 	while (true)
 	{
-		if (contaMillisecondi1.hasPassed(250))
+		switch (iStato)
 		{
-			contaMillisecondi1.restart();
-			iAleCiclo = aleSignal(iAleCiclo, myLcd);
-			iCicloIcona = iconarecorder(iCicloIcona, myLcd);
+		case 0: // on display shows: Date, Time, Temperature reading, aleSignal, recording status, ecc... and Menu
+			if (bRecordingStatus) //true = devo registrare i dati
+			{
+				int iCicloIcona = 0;
+				if (contaMillisecondi1.hasPassed(250))
+				{
+					contaMillisecondi1.restart();
+					iCicloIcona = iconarecorder(iCicloIcona, myLcd);
+				}
+			} else
+			{
+				myLcd.setCursor(1, 2);
+				myLcd.print("NO REC");
+			}
+
+			if (contaMillisecondi2.hasPassed(200))
+			{
+				contaMillisecondi2.restart();
+				iAleCiclo = aleSignal(iAleCiclo, myLcd);
+			}
+
+			if (contaSecondi2.hasPassed(10))
+			{
+				contaSecondi2.restart();
+				Tardis = getRTCdateTime(orologio1);
+				printLcdDateTime(myLcd, Tardis);
+				getSensorTemp(one_Wire, dsTemp);
+				printTempLcd(myLcd);
+			}
+			printLcdMenu(myLcd, iStato);
+			break;
+
+		case 1: // Shows utility menu with device info, SDCard status, ecc...
+			break;
+
+		case 2: // shows SDCard management menu with list SD contnent, erase single file, wipe SDCard
+			break;
+
+		case 3: // Shows data acquisition setup to set timing of record, nr of reading in record's timing, if keep only last value or calc mena value
+			break;
+
+		case 9: // Arduino "shutdown"
+			buonanotte(myLcd);
+			break;
+
+		default:
+			iStato = 0;
+			break;
 		}
-
-		// if (contaSecondi1.hasPassed(60))
-		// {
-		// 	contaSecondi1.restart();
-		// 	Tardis = getRTCdateTime(orologio1);
-		// 	printLcdDateTime(myLcd, Tardis);
-
-		// }
-
-		if (contaSecondi2.hasPassed(10))
-		{
-			contaSecondi2.restart();
-			Tardis = getRTCdateTime(orologio1);
-			printLcdDateTime(myLcd, Tardis);
-			getSensorTemp(one_Wire, dsTemp);
-			printTempLcd(myLcd);
-		}
-
-
-		// delay(1000);
 	}
-
-
 }
-
 /**
  ****************************************
  * 										*
