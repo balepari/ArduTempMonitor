@@ -27,6 +27,8 @@
 #include <EthernetServer.h>
 #include <Dns.h>
 
+#include <avr/sleep.h>
+
 // #include "definitions.h"
 // #include "variables.h"
 #include "pitches.h"
@@ -156,19 +158,16 @@ EthernetUDP ntpUDP; /*!< Creating object of type EthernetUPD to communicate with
 /*!
    \param a,b,c,d,e,f,g,h the resulting HEX value of single row cell composing the lcd dot that have to be turned on to draw symbol. My lcd has a character made by 5 dot cols and 8 rows. If a value is not represented it will be set to zero.
  */
-int bell[8] = {0x4, 0xe, 0xe, 0xe, 0x1f, 0x0, 0x4};
-int note[8] = {0x2, 0x3, 0x2, 0xe, 0x1e, 0xc, 0x0};
-int clocks[8] = {0x0, 0xe, 0x15, 0x17, 0x11, 0xe, 0x0};
-int heart[8] = {0x0, 0xa, 0x1f, 0x1f, 0xe, 0x4, 0x0};
-int duck[8] = {0x0, 0xc, 0x1d, 0xf, 0xf, 0x6, 0x0};
+int bobina[8] = {0x0, 0x4, 0xa, 0x11, 0x11, 0xa, 0x4, 0x0};
+int lowerSx[8] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1e, 0x0};
+int lowerDx[8] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xf, 0x0};
+int upperDx[8] = {0x0, 0xf, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+int upperSx[8] = {0x0, 0x1e, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
 int check[8] = {0x0, 0x1, 0x3, 0x16, 0x1c, 0x8, 0x0};
-int cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
+// int cross[8] = {0x0, 0x1b, 0xe, 0x4, 0xe, 0x1b, 0x0};
 int retarrow[8] = { 0x1, 0x1, 0x5, 0x9, 0x1f, 0x8, 0x4};
 int slash[8] = {0x0, 0x10, 0x8, 0x4, 0x2, 0x1, 0x0};
 
-
-
-int ciclo = 0; //indice per l'aleSignal
 
 
 /*!
@@ -215,6 +214,17 @@ byte colPins[COLS] = {22, 24, 26, 28}; //connect to the column pinouts of the ke
    \param COLS is the variable that indicates how many cols the keypad is composed
  */
 Keypad tastierino = Keypad( makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS);
+
+//! defines state machine's state
+/*!
+   0 = on display shows: Date, Time, Temperature reading, aleSignal, recording status, ecc... and Menu
+   1 = Shows utility menu with device info, SDCard status, ecc...
+   2 = shows SDCard management menu with list SD contnent, erase single file, wipe SDCard
+   3 = Shows data acquisition setup to set timing of record, nr of reading in record's timing, if keep only last value or calc mena value
+   9 = Arduino "shutdown"
+ */
+int iStato = 0;
+
 
 /**
  ****************************************
@@ -320,15 +330,18 @@ void printLcdDateTime(LiquidCrystal_PCF8574 lcd, DateTime dt);
 float getSensorTemp(OneWire oneWire, DallasTemperature sensors);
 void printTempLcd(LiquidCrystal_PCF8574 lcd);
 DateTime getRTCdateTime(DS3231M_Class orologio);
-void aleSignal(int ciclo, LiquidCrystal_PCF8574 lcd);
+int aleSignal(int ciclo, LiquidCrystal_PCF8574 lcd);
 // void gestisciTastiera(void);
 void printLcdMenu(LiquidCrystal_PCF8574 lcd);
 void mostraContenutoSD_serialPrint(Sd2Card card, SdVolume volume, SdFile root);
 void mostraContenutoSD(File objFile, int tabs);
 void printDirectory(File dir, int numTabs);
 void cancellaFileSD(LiquidCrystal_PCF8574 lcd, File objFile);
-// void scriviDatiSD(void) :
-	void setup(void);
+void scriviDatiSD(void);
+void buonanotte(LiquidCrystal_PCF8574 lcd);
+int iconarecorder(int step, LiquidCrystal_PCF8574 lcd);
+
+void setup(void);
 void loop(void);
 
 /**
@@ -354,13 +367,12 @@ void lcdSetup(int cols, int rows, int becklight, LiquidCrystal_PCF8574 lcd) //YE
 	lcd.setBacklight(becklight);
 	lcd.home();
 	lcd.clear();
-	lcd.createChar(0, bell);
-	lcd.createChar(1, note);
-	lcd.createChar(2, clocks);
-	lcd.createChar(3, heart);
-	lcd.createChar(4, duck);
+	lcd.createChar(6, bobina);
+	lcd.createChar(1, lowerSx);
+	lcd.createChar(2, lowerDx);
+	lcd.createChar(3, upperDx);
+	lcd.createChar(4, upperSx);
 	lcd.createChar(5, check);
-	lcd.createChar(6, cross);
 	lcd.createChar(7, retarrow);
 	lcd.createChar(8, slash);
 }
@@ -523,37 +535,38 @@ DateTime getRTCdateTime(DS3231M_Class orologio)
 	return orologio.now();
 }
 
-void aleSignal(int ciclo, LiquidCrystal_PCF8574 lcd)
+int aleSignal(int ciclo, LiquidCrystal_PCF8574 lcd)
 {
 	switch (ciclo)
 	{
 	case 0:
 		lcd.setCursor(19, 3);
-		lcd.print(0xB0);
+		lcd.write(0xB0);
 		ciclo = ciclo + 1;
 		break;
 
 	case 1:
 		lcd.setCursor(19, 3);
-		lcd.print(8);
+		lcd.write(8);
 		ciclo = ciclo + 1;
 		break;
 
 	case 2:
 		lcd.setCursor(19, 3);
-		lcd.print(0x7C);
+		lcd.write(0x7C);
 		ciclo = ciclo + 1;
 		break;
 
 	case 3:
 		lcd.setCursor(19, 3);
-		lcd.print(0x2F);
+		lcd.write(0x2F);
 		ciclo = 0;
 		break;
 
 	default:
 		ciclo = 0;
 	}
+	return ciclo;
 }
 
 void mostraContenutoSD_serialPrint(Sd2Card card, SdVolume volume, SdFile root)
@@ -772,8 +785,123 @@ void printLcdMenu(LiquidCrystal_PCF8574 lcd)
 void scriviDatiSD(void)
 {
 	//scrive i dati sulla SD in 3 file separati: IP.txt, DataOra.txt e Temp.txt per verifica gestione di più file
-
 }
+
+void buonanotte(LiquidCrystal_PCF8574 lcd)
+{
+	//esegue lo "shutdown" di arduino impostando il modo sleep e "spegnendo" l'LCD dopo un messaggio
+	lcd.clear();
+	lcd.setCursor(6,1);
+	lcd.print("B Y E");
+	lcd.setCursor(7,2);
+	lcd.print("B Y E");
+	delay(4000);
+	lcd.clear();
+	lcd.noDisplay();
+	lcd.setBacklight(0);
+	set_sleep_mode (SLEEP_MODE_PWR_DOWN);
+	sleep_enable();
+	sleep_cpu();
+}
+
+int iconarecorder(int step, LiquidCrystal_PCF8574 lcd)
+{
+	switch (step)
+	{
+	case 0:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.print("  ");
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 1:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.setCursor(2, 2);
+		lcd.write(1);
+		lcd.print(" ");
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 2:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.setCursor(2, 2);
+		lcd.write(1);
+		lcd.setCursor(3, 2);
+		lcd.write(2);
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 3:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.print(" ");
+		lcd.setCursor(3, 2);
+		lcd.write(2);
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 4:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.print("  ");
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 5: //bobina - spazio - upperDx - bobina
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.print(" ");
+		lcd.setCursor(3, 2);
+		lcd.write(3);
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 6:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.setCursor(2, 2);
+		lcd.write(4);
+		lcd.setCursor(3, 2);
+		lcd.write(3);
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step++;
+		break;
+
+	case 7:
+		lcd.setCursor(1, 2);
+		lcd.write(6);
+		lcd.setCursor(2, 2);
+		lcd.write(4);
+		lcd.setCursor(3, 2);
+		lcd.print(" ");
+		lcd.setCursor(4, 2);
+		lcd.write(6);
+		step = 0;
+		break;
+
+	default:
+		step = 0;
+	}
+	return step;
+}
+
+
 
 /**
  ****************************************
@@ -1044,22 +1172,53 @@ void setup()
 	#endif
 
 	mazalavecia();
+
 }
 
 void loop()
 {
-		syncRTCtoNTP(myTZ, orologio1);
+	syncRTCtoNTP(myTZ, orologio1);
+	int iCicloIcona = 0;
+	myLcd.home();
+	Chrono contaMillisecondi1;
+	Chrono contaSecondi1(Chrono::SECONDS);
+	Chrono contaSecondi2(Chrono::SECONDS);
+
+	int iAleCiclo = 0; //indice per l'aleSignal
+	myLcd.clear();
+	Tardis = getRTCdateTime(orologio1);
+	printLcdDateTime(myLcd, Tardis);
+	getSensorTemp(one_Wire, dsTemp);
+	printTempLcd(myLcd);
+
 	while (true)
 	{
+		if (contaMillisecondi1.hasPassed(250))
+		{
+			contaMillisecondi1.restart();
+			iAleCiclo = aleSignal(iAleCiclo, myLcd);
+			iCicloIcona = iconarecorder(iCicloIcona, myLcd);
+		}
 
-		myLcd.home();
-		myLcd.clear();
-		Tardis = getRTCdateTime(orologio1);
-		printLcdDateTime(myLcd, Tardis);
-		getSensorTemp(one_Wire, dsTemp);
-		printTempLcd(myLcd);
-		delay(1000);
+		// if (contaSecondi1.hasPassed(60))
+		// {
+		// 	contaSecondi1.restart();
+		// 	Tardis = getRTCdateTime(orologio1);
+		// 	printLcdDateTime(myLcd, Tardis);
 
+		// }
+
+		if (contaSecondi2.hasPassed(10))
+		{
+			contaSecondi2.restart();
+			Tardis = getRTCdateTime(orologio1);
+			printLcdDateTime(myLcd, Tardis);
+			getSensorTemp(one_Wire, dsTemp);
+			printTempLcd(myLcd);
+		}
+
+
+		// delay(1000);
 	}
 
 
